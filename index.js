@@ -18,16 +18,26 @@ module.exports = function require(location) {
   if (!path.extname(location)) location = location +'.js';
   location = path.resolve(path.dirname(module.parent.filename), location);
 
-  var name = path.basename(location)
-    , context = { load: require }
+  var context = { load: require }
+    , name = path.basename(location)
     , code = read(location);
 
-  // Run it in a context so we can expose the globals
+  // Add the missing globals that are not present in vm module.
+  Object.keys(missing).forEach(function missingInVM(global) {
+    context[global] = missing[global];
+  });
+
+  // Run it in a context so we can expose the globals.
   context = vm.createContext(context);
   vm.runInContext(code, context, name);
 
   // Remove the load module if it's still unchanged
   if (context.load === require) delete context.load;
+  Object.keys(missing).forEach(function missingInVM(global) {
+    if (context[global] === missing[global]) {
+      delete context[global];
+    }
+  });
 
   // If only one global was exported, we should simply expose it using the
   // `module.exports` patter. If there are more globals exported, expose them
@@ -39,6 +49,19 @@ module.exports = function require(location) {
     exports[method] = context[method];
     return exports;
   }, Object.create(null));
+};
+
+/**
+ * The following properties are missing when loading plain ol files.
+ *
+ * @private
+ */
+var missing = {
+    console: console
+  , setTimeout: setTimeout
+  , clearTimeout: clearTimeout
+  , setInterval: setInterval
+  , clearInterval: clearInterval
 };
 
 /**
