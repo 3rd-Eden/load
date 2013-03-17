@@ -15,7 +15,8 @@ var path = require('path')
  * @api public
  */
 module.exports = function require(location) {
-  location = path.resolve(path.dirname(module.parent.id), location);
+  if (!path.extname(location)) location = location +'.js';
+  location = path.resolve(path.dirname(module.parent.filename), location);
 
   var name = path.basename(location)
     , context = { load: require }
