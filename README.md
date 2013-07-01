@@ -1,9 +1,23 @@
 # load
 
-Because fuck your module patterns, your module loader and other kinds of pointless
-codebloat that require me to use a damned JavaScript file on the server.
+Because fuck dedicated module patterns, module loaders, compilers and other kind
+of pointless code bloat that requires me to wrap my client-side JavaScript for
+server usage.
 
-I named it load because it loads files, thats it.
+People need to understand that the Node.js module system is nothing more then a
+`vm` that reads our a pre-defined `module` variable. We don't need to be stuck
+in this pattern, we can just get all the globals that are introduced while we
+load the script and tada, we're running the snippet on the server.
+
+## Installation
+
+Load is available in `npm` so you can install it by running:
+
+```
+npm --save load
+```
+
+## API
 
 ```js
 var load = require('load');
@@ -25,6 +39,9 @@ var test = load('file.js');
 var library = load('file2');
 console.log(library.test);
 console.log(library.test1);
+
+var moo = load.compiler('function cow() { console.log("moo") }', 'moo.js');
+moo(); // console.log('moo');
 
 // And that it.
 ```

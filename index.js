@@ -14,13 +14,23 @@ var path = require('path')
  * @returns {Mixed}
  * @api public
  */
-module.exports = function require(location) {
+function load(location) {
   if (!path.extname(location)) location = location +'.js';
   location = path.resolve(path.dirname(module.parent.filename), location);
 
-  var context = { load: require }
-    , name = path.basename(location)
-    , code = read(location);
+  return compiler(read(location), path.basename(location));
+}
+
+/**
+ * The module compiler.
+ *
+ * @param {String} code The source code that needs to be compiled
+ * @param {String} name The name of the file.
+ * @returns {Mixed} Things.
+ * @api public
+ */
+function compiler(code, name) {
+  var context = { load: require };
 
   // Add the missing globals that are not present in vm module.
   Object.keys(missing).forEach(function missingInVM(global) {
@@ -49,35 +59,42 @@ module.exports = function require(location) {
     exports[method] = context[method];
     return exports;
   }, Object.create(null));
-};
-
-/**
- * The following properties are missing when loading plain ol files.
- *
- * @private
- */
-var missing = {
-  require: require
-};
-
-Object.keys(global).forEach(function add(prop) {
-  missing[prop] = global[prop];
-});
+}
 
 /**
  * Code reading and cleaning up.
  *
  * @param {String} location
+ * @api private
  */
 function read(location) {
   var code = fs.readFileSync(location, 'utf-8');
 
+  //
   // Remove byte order marker. This catches EF BB BF (the UTF-8 BOM)
   // because the buffer-to-string conversion in `fs.readFileSync()`
   // translates it to FEFF, the UTF-16 BOM.
+  //
   if (code.charCodeAt(0) === 0xFEFF) {
     code = code.slice(1);
   }
 
   return code;
 }
+
+/**
+ * The following properties are missing when loading plain ol files.
+ *
+ * @type {Object}
+ * @private
+ */
+var missing = Object.keys(global).reduce(function add(missing, prop) {
+  missing[prop] = global[prop];
+  return missing;
+}, { require: require });
+
+//
+// Expose the module.
+//
+load.compiler = compiler;
+module.exports = load;

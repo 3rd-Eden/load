@@ -1,3 +1,6 @@
+## 0.1.0
+- It exposes the compiler.
+
 ## 0.0.3
 - Removed pointless missing globals code, we can just use `global` variable as
   it's available in node and lists all introduced globals.
