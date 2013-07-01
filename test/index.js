@@ -11,3 +11,6 @@ var lib = load('./fixtures/file2');
 assert.ok(typeof lib === 'object');
 assert.ok(typeof lib.foo === 'function');
 assert.ok(typeof lib.bar === 'function');
+
+var stream = load('./fixtures/globals.js');
+assert.ok(stream instanceof require('stream'));

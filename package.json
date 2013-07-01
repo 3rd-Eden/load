@@ -1,19 +1,28 @@
 {
   "name": "load",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Load JavaScript files that do not use the bloat module patterns",
   "main": "index.js",
   "scripts": {
     "test": "node test/index.js"
   },
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/3rd-Eden/load.git"
+  },
   "keywords": [
     "load",
     "require",
     "module",
     "import",
-    "export"
+    "export",
+    "amd",
+    "browser",
+    "exports"
   ],
   "author": "Arnout Kazemier",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "pre-commit": "0.0.4"
+  }
 }

@@ -57,12 +57,12 @@ module.exports = function require(location) {
  * @private
  */
 var missing = {
-    console: console
-  , setTimeout: setTimeout
-  , clearTimeout: clearTimeout
-  , setInterval: setInterval
-  , clearInterval: clearInterval
+  require: require
 };
+
+Object.keys(global).forEach(function add(prop) {
+  missing[prop] = global[prop];
+});
 
 /**
  * Code reading and cleaning up.
