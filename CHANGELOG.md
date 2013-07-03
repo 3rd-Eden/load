@@ -1,3 +1,7 @@
+## 0.1.1
+- Make it possible to add globals to the loaded script.
+- Added missing `__dirname` and `__filename`.
+
 ## 0.1.0
 - It exposes the compiler.
 

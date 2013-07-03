@@ -1,6 +1,6 @@
 {
   "name": "load",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Load JavaScript files that do not use the bloat module patterns",
   "main": "index.js",
   "scripts": {

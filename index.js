@@ -18,7 +18,10 @@ function load(location) {
   if (!path.extname(location)) location = location +'.js';
   location = path.resolve(path.dirname(module.parent.filename), location);
 
-  return compiler(read(location), path.basename(location));
+  return compiler(read(location), path.basename(location), {
+    __filename: path.basename(location),
+    __dirname: path.dirname(location)
+  });
 }
 
 /**
@@ -26,15 +29,24 @@ function load(location) {
  *
  * @param {String} code The source code that needs to be compiled
  * @param {String} name The name of the file.
+ * @param {Object} globals Additional globals
  * @returns {Mixed} Things.
  * @api public
  */
-function compiler(code, name) {
+function compiler(code, name, globals) {
+  name = name || 'load.js';
+  globals = globals || {};
+
   var context = { load: require };
 
   // Add the missing globals that are not present in vm module.
   Object.keys(missing).forEach(function missingInVM(global) {
     context[global] = missing[global];
+  });
+
+  // Add extra globals.
+  Object.keys(globals).forEach(function missingInVM(global) {
+    context[global] = globals[global];
   });
 
   // Run it in a context so we can expose the globals.
@@ -48,11 +60,16 @@ function compiler(code, name) {
       delete context[global];
     }
   });
+  Object.keys(globals).forEach(function missingInVM(global) {
+    if (context[global] === globals[global]) {
+      delete context[global];
+    }
+  });
 
   // If only one global was exported, we should simply expose it using the
   // `module.exports` patter. If there are more globals exported, expose them
   // all.
-  var globals = Object.keys(context);
+  globals = Object.keys(context);
 
   if (globals.length === 1) return context[globals.pop()];
   return globals.reduce(function reduce(exports, method) {
