@@ -14,14 +14,16 @@ var path = require('path')
  * @returns {Mixed}
  * @api public
  */
-function load(location) {
+function load(location, globals) {
+  globals = globals || {};
+
   if (!path.extname(location)) location = location +'.js';
   location = path.resolve(path.dirname(module.parent.filename), location);
 
-  return compiler(read(location), path.basename(location), {
-    __filename: path.basename(location),
-    __dirname: path.dirname(location)
-  });
+  globals["__filename"] = path.basename(location);
+  globals["__dirname"] = path.dirname(location);
+
+  return compiler(read(location), path.basename(location), globals);
 }
 
 /**

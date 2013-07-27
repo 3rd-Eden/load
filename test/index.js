@@ -19,6 +19,12 @@ var assert = require('assert')
     assert.ok(typeof lib.bar === 'function');
   }
 }, {
+  it: 'passes optional argument globals to file scope',
+  does: function does() {
+    var lib = load('./fixtures/file3', {foo: 'bar'});
+    assert.equal(lib.getFoo(), 'bar');
+  }
+}, {
   it: 'adds nodejs globals to the code.',
   does: function () {
     var stream = load('./fixtures/globals.js');
