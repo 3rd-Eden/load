@@ -16,7 +16,7 @@ var path = require('path')
  */
 function load(location, globals) {
   globals = globals || {};
-  
+
   if (!path.extname(location)) location = location +'.js';
   location = path.resolve(path.dirname(module.parent.filename), location);
 
