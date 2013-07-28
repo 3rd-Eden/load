@@ -1,5 +1,8 @@
 # load
 
+[![Build Status](https://travis-ci.org/3rd-Eden/load.png)](https://travis-ci.org/3rd-Eden/load)
+[![NPM version](https://badge.fury.io/js/load.png)](http://badge.fury.io/js/load)
+
 Because fuck dedicated module patterns, module loaders, compilers and other kind
 of pointless code bloat that requires me to wrap my client-side JavaScript for
 server usage.
