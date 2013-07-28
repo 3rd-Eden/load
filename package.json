@@ -1,7 +1,7 @@
 {
   "name": "load",
-  "version": "0.1.1",
-  "description": "Load JavaScript files that do not use the bloat module patterns",
+  "version": "0.1.2",
+  "description": "Load plain JavaScript files that don't use module patterns directly in node.",
   "main": "index.js",
   "scripts": {
     "test": "node test/index.js"
@@ -23,6 +23,6 @@
   "author": "Arnout Kazemier",
   "license": "MIT",
   "devDependencies": {
-    "pre-commit": "0.0.4"
+    "pre-commit": "0.0.x"
   }
 }
