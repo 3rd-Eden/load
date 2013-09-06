@@ -20,8 +20,8 @@ function load(location, globals) {
   if (!path.extname(location)) location = location +'.js';
   location = path.resolve(path.dirname(module.parent.filename), location);
 
-  globals["__filename"] = path.basename(location);
-  globals["__dirname"] = path.dirname(location);
+  globals.__filename = path.basename(location);
+  globals.__dirname = path.dirname(location);
 
   return compiler(read(location), path.basename(location), globals);
 }
@@ -59,12 +59,14 @@ function compiler(code, name, globals) {
   if (context.load === require) delete context.load;
   Object.keys(missing).forEach(function missingInVM(global) {
     if (context[global] === missing[global]) {
-      delete context[global];
+      try { delete context[global]; }
+      catch (e) {}
     }
   });
   Object.keys(globals).forEach(function missingInVM(global) {
     if (context[global] === globals[global]) {
-      delete context[global];
+      try { delete context[global]; }
+      catch (e) {}
     }
   });
 

@@ -35,6 +35,11 @@ var assert = require('assert')
   does: function () {
     assert.ok(typeof load.compiler === 'function');
   }
+}, {
+  it: 'doesnt throw when it wants to delete undefined variables',
+  does: function () {
+    load('./fixtures/globals.js', { undefined: undefined });
+  }
 }].forEach(function compiling(test, index) {
   console.log('('+ index +') it '+ test.it);
   test.does();

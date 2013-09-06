@@ -1,3 +1,9 @@
+## 0.1.3
+- Don't throw when we cannot delete the introduced globals.
+
+## 0.1.2
+- Fixes optional globals arg.
+
 ## 0.1.1
 - Make it possible to add globals to the loaded script.
 - Added missing `__dirname` and `__filename`.
