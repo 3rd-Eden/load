@@ -1,3 +1,6 @@
+## 0.1.4
+- Don't expose the `module.exports` and `exports` as predefined globals.
+
 ## 0.1.3
 - Don't throw when we cannot delete the introduced globals.
 

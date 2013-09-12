@@ -115,6 +115,12 @@ var missing = Object.keys(global).reduce(function add(missing, prop) {
 }, { require: require });
 
 //
+// These values should not be exposed as they point to our module.
+//
+delete missing.module;
+delete missing.exports;
+
+//
 // Expose the module.
 //
 load.compiler = compiler;

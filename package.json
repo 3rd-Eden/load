@@ -1,6 +1,6 @@
 {
   "name": "load",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Load plain JavaScript files that don't use module patterns directly in node.",
   "main": "index.js",
   "scripts": {
