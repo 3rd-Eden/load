@@ -57,12 +57,14 @@ function compiler(code, name, globals) {
 
   // Remove the load module if it's still unchanged
   if (context.load === require) delete context.load;
+
   Object.keys(missing).forEach(function missingInVM(global) {
     if (context[global] === missing[global]) {
       try { delete context[global]; }
       catch (e) {}
     }
   });
+
   Object.keys(globals).forEach(function missingInVM(global) {
     if (context[global] === globals[global]) {
       try { delete context[global]; }
@@ -70,16 +72,7 @@ function compiler(code, name, globals) {
     }
   });
 
-  // If only one global was exported, we should simply expose it using the
-  // `module.exports` patter. If there are more globals exported, expose them
-  // all.
-  globals = Object.keys(context);
-
-  if (globals.length === 1) return context[globals.pop()];
-  return globals.reduce(function reduce(exports, method) {
-    exports[method] = context[method];
-    return exports;
-  }, Object.create(null));
+  return context;
 }
 
 /**

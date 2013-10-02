@@ -1,3 +1,7 @@
+## 1.0.0
+- Major: The API no longer automatically assumes an `module.exports` pattern. It
+  will always return an object with all introduced globals.
+
 ## 0.1.4
 - Don't expose the `module.exports` and `exports` as predefined globals.
 

@@ -30,8 +30,9 @@ var load = require('load');
 // function test() { return 'test' };
 //
 
-// Only one global exported, automatically exposes the function by default.
-var test = load('file.js');
+// load returns all the introduced globals as an object, so specify the name of
+// function you need in order to call it.
+var test = load('file.js').test;
 
 // file2.js contents:
 //

@@ -4,11 +4,13 @@ var assert = require('assert')
   , load = require('../');
 
 [{
-  it: 'exposes one single global? Assume module.exports.',
+  it: 'always a sumes an exports pattern with only 1 global',
   does: function does() {
     var test = load('./fixtures/file.js');
-    assert.ok(typeof test === 'function');
-    assert.ok(test() === 'foo:bar');
+
+    assert.ok(typeof test === 'object');
+    assert.ok(typeof test.test === 'function');
+    assert.ok(test.test() === 'foo:bar');
   }
 }, {
   it: 'exposes more globals ? Assume exports.<key> pattern.',
@@ -27,7 +29,7 @@ var assert = require('assert')
 }, {
   it: 'adds nodejs globals to the code.',
   does: function () {
-    var stream = load('./fixtures/globals.js');
+    var stream = load('./fixtures/globals.js').x;
     assert.ok(stream instanceof require('stream'));
   }
 }, {
