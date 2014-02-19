@@ -58,20 +58,6 @@ function compiler(code, name, globals) {
   // Remove the load module if it's still unchanged
   if (context.load === require) delete context.load;
 
-  Object.keys(missing).forEach(function missingInVM(global) {
-    if (context[global] === missing[global]) {
-      try { delete context[global]; }
-      catch (e) {}
-    }
-  });
-
-  Object.keys(globals).forEach(function missingInVM(global) {
-    if (context[global] === globals[global]) {
-      try { delete context[global]; }
-      catch (e) {}
-    }
-  });
-
   return context;
 }
 
@@ -105,7 +91,10 @@ function read(location) {
 var missing = Object.keys(global).reduce(function add(missing, prop) {
   missing[prop] = global[prop];
   return missing;
-}, { require: require });
+}, {
+  require: require,
+  Error: Error
+});
 
 //
 // These values should not be exposed as they point to our module.
