@@ -88,19 +88,15 @@ function read(location) {
  * @type {Object}
  * @private
  */
-var missing = Object.keys(global).reduce(function add(missing, prop) {
+var missing = Object.keys(global).filter(function filter(prop) {
+  return prop !== 'module' && prop !== 'require';
+}).reduce(function add(missing, prop) {
   missing[prop] = global[prop];
   return missing;
 }, {
   require: require,
   Error: Error
 });
-
-//
-// These values should not be exposed as they point to our module.
-//
-delete missing.module;
-delete missing.exports;
 
 //
 // Expose the module.
